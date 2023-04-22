@@ -1,9 +1,36 @@
 import { z } from "zod";
 
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  publicProcedure,
+  protectedProcedure,
+} from "~/server/api/trpc";
 
 export const notesRouter = createTRPCRouter({
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.note.findMany();
+  getAll: publicProcedure.query(async ({ ctx }) => {
+    const notes = await ctx.prisma.note.findMany();
+    return notes;
   }),
+  create: protectedProcedure
+    .input(z.object({ content: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.session.user.id;
+
+      const note = await ctx.prisma.note.create({
+        data: { userId, content: input.content },
+      });
+      return note;
+    }),
+});
+export const usersRouter = createTRPCRouter({
+  create: protectedProcedure
+    .input(z.object({ content: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.session.user.id;
+
+      const note = await ctx.prisma.note.create({
+        data: { userId, content: input.content },
+      });
+      return note;
+    }),
 });
