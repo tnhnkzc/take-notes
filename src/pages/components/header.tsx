@@ -2,6 +2,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 
 const Header: React.FC = () => {
   const { data: user } = useSession();
+  console.log(user);
 
   return (
     <div className="flex items-center justify-between p-4">
