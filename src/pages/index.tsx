@@ -70,17 +70,20 @@ const Home: NextPage = () => {
             {notes?.map((note) => (
               <div
                 key={note.id}
-                className="draggable-note flex h-40 w-40 flex-row items-center justify-center rounded-md bg-indigo-500"
+                className="draggable-note grid h-fit w-fit grid-flow-col grid-rows-3 justify-evenly rounded-md bg-orange-300 p-2 text-black drop-shadow-2xl"
               >
-                <p>{note.content}</p>
-                <p>{dayjs(note.createdAt).fromNow()}</p>
+                <p className="row-start-1 row-end-4">{note.content}</p>
                 <button
+                  className="col-start-3 col-end-4 self-start justify-self-end "
                   onClick={() => {
                     mutate({ id: note.id });
                   }}
                 >
                   X
                 </button>
+                <p className="col-span-2 row-start-3 row-end-4 self-end justify-self-end text-xs">
+                  {dayjs(note.createdAt).fromNow()}
+                </p>
               </div>
             ))}
           </div>
@@ -112,7 +115,7 @@ const CreateNote = () => {
   });
   return (
     <>
-      <div className="draggable-input flex flex-col">
+      <div className="draggable-input flex flex-col gap-4">
         <textarea
           placeholder="Type your note"
           rows={10}
@@ -122,7 +125,12 @@ const CreateNote = () => {
           onChange={(e) => setInput(e.target.value)}
           disabled={isAdding}
         />
-        <button onClick={() => mutate({ content: input })}>Add</button>
+        <button
+          className="w-fit self-end rounded-lg border-2 border-red-300 p-2"
+          onClick={() => mutate({ content: input })}
+        >
+          Add
+        </button>
       </div>
     </>
   );
