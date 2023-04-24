@@ -8,7 +8,11 @@ import {
 
 export const notesRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
-    const notes = await ctx.prisma.note.findMany();
+    const userId = ctx.session?.user.id;
+    const notes = await ctx.prisma.note.findMany({
+      where: { userId: userId },
+      orderBy: { createdAt: "desc" },
+    });
     return notes;
   }),
   create: protectedProcedure

@@ -10,9 +10,11 @@ dayjs.extend(relativeTime);
 
 import { api } from "~/utils/api";
 import { useState } from "react";
+import { signIn, useSession } from "next-auth/react";
 
 const Home: NextPage = () => {
   const { data: notes, isLoading } = api.notes.getAll.useQuery();
+  const { data: user } = useSession();
   if (isLoading) return <LoadingSpinner />;
   if (!notes) return <div>Something went wrong.</div>;
 
@@ -50,21 +52,35 @@ const Home: NextPage = () => {
   return (
     <>
       <Header />
-      <main className="flex w-full flex-col items-center justify-center gap-4">
-        <CreateNote />
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-          {/* TODO: Limit dragging area*/}
-          {notes?.map((note) => (
-            <div
-              key={note.id}
-              className="draggable-note flex h-40 w-40 items-center justify-center rounded-md bg-indigo-500"
-            >
-              <p>{note.content}</p>
-              <p>{dayjs(note.createdAt).fromNow()}</p>
-            </div>
-          ))}
+      {user ? (
+        <main className="flex w-full flex-col items-center justify-center gap-4">
+          <CreateNote />
+          <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
+            {/* TODO: 
+            - Limit dragging area
+            - Solve Google Auth problem
+            */}
+            {notes?.map((note) => (
+              <div
+                key={note.id}
+                className="draggable-note flex h-40 w-40 items-center justify-center rounded-md bg-indigo-500"
+              >
+                <p>{note.content}</p>
+                <p>{dayjs(note.createdAt).fromNow()}</p>
+              </div>
+            ))}
+          </div>
+        </main>
+      ) : (
+        <div className="flex items-center justify-center">
+          <button
+            className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
+            onClick={() => void signIn()}
+          >
+            Sign in
+          </button>
         </div>
-      </main>
+      )}
     </>
   );
 };
@@ -74,15 +90,17 @@ const CreateNote = () => {
   const { mutate } = api.notes.create.useMutation();
   return (
     <>
-      <textarea
-        placeholder="Type your note"
-        rows={10}
-        cols={50}
-        className="draggable-input rounded-md border-2 border-amber-300 bg-amber-200 p-2 text-black outline-none placeholder:text-slate-600 md:max-w-md"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-      />
-      <button onClick={() => mutate({ content: input })}>Add</button>
+      <div className="draggable-input flex flex-col">
+        <textarea
+          placeholder="Type your note"
+          rows={10}
+          cols={50}
+          className="rounded-md border-2 border-amber-300 bg-amber-200 p-2 text-black outline-none placeholder:text-slate-600 md:max-w-md"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        />
+        <button onClick={() => mutate({ content: input })}>Add</button>
+      </div>
     </>
   );
 };
