@@ -25,6 +25,19 @@ export const notesRouter = createTRPCRouter({
       });
       return note;
     }),
+  findUnique: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const note = await ctx.prisma.note.findUnique({
+        where: { id: input.id },
+      });
+    }),
+
+  delete: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.note.delete({ where: { id: input.id } });
+    }),
 });
 export const usersRouter = createTRPCRouter({
   create: protectedProcedure

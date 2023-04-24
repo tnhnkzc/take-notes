@@ -15,6 +15,13 @@ import { signIn, useSession } from "next-auth/react";
 const Home: NextPage = () => {
   const { data: notes, isLoading } = api.notes.getAll.useQuery();
   const { data: user } = useSession();
+  const ctx = api.useContext();
+  const { mutate } = api.notes.delete.useMutation({
+    onSuccess: () => {
+      // Refresh to display the new note
+      void ctx.notes.getAll.invalidate();
+    },
+  });
   if (isLoading) return <LoadingSpinner />;
   if (!notes) return <div>Something went wrong.</div>;
 
@@ -53,9 +60,9 @@ const Home: NextPage = () => {
     <>
       <Header />
       {user ? (
-        <main className="flex w-full flex-col items-center justify-center gap-4">
+        <main className="flex w-full flex-row flex-wrap items-center justify-center gap-4">
           <CreateNote />
-          <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
+          <div className="container flex  items-center justify-center gap-12 px-4 py-16 ">
             {/* TODO: 
             - Limit dragging area
             - Solve Google Auth problem
@@ -63,10 +70,17 @@ const Home: NextPage = () => {
             {notes?.map((note) => (
               <div
                 key={note.id}
-                className="draggable-note flex h-40 w-40 items-center justify-center rounded-md bg-indigo-500"
+                className="draggable-note flex h-40 w-40 flex-row items-center justify-center rounded-md bg-indigo-500"
               >
                 <p>{note.content}</p>
                 <p>{dayjs(note.createdAt).fromNow()}</p>
+                <button
+                  onClick={() => {
+                    mutate({ id: note.id });
+                  }}
+                >
+                  X
+                </button>
               </div>
             ))}
           </div>
@@ -87,7 +101,15 @@ const Home: NextPage = () => {
 
 const CreateNote = () => {
   const [input, setInput] = useState<string>("");
-  const { mutate } = api.notes.create.useMutation();
+  const ctx = api.useContext();
+  const { mutate, isLoading: isAdding } = api.notes.create.useMutation({
+    onSuccess: () => {
+      // set the text area empty
+      setInput("");
+      // Refresh to display the new note
+      void ctx.notes.getAll.invalidate();
+    },
+  });
   return (
     <>
       <div className="draggable-input flex flex-col">
@@ -98,6 +120,7 @@ const CreateNote = () => {
           className="rounded-md border-2 border-amber-300 bg-amber-200 p-2 text-black outline-none placeholder:text-slate-600 md:max-w-md"
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          disabled={isAdding}
         />
         <button onClick={() => mutate({ content: input })}>Add</button>
       </div>
