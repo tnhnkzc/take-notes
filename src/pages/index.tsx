@@ -2,6 +2,7 @@ import { type NextPage } from "next";
 import interact from "interactjs";
 import Header from "./components/header";
 import { LoadingSpinner } from "./components/spinner";
+import { CreateNote } from "./components/CreateNote";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -9,19 +10,20 @@ import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
 import { api } from "~/utils/api";
-import { useState } from "react";
 import { signIn, useSession } from "next-auth/react";
 
 const Home: NextPage = () => {
   const { data: notes, isLoading } = api.notes.getAll.useQuery();
   const { data: user } = useSession();
   const ctx = api.useContext();
+  // Delete a note
   const { mutate } = api.notes.delete.useMutation({
     onSuccess: () => {
       // Refresh to display the new note
       void ctx.notes.getAll.invalidate();
     },
   });
+  // Show loading spinner if data didn't load yet
   if (isLoading) return <LoadingSpinner />;
   if (!notes) return <div>Something went wrong.</div>;
 
@@ -98,40 +100,6 @@ const Home: NextPage = () => {
           </button>
         </div>
       )}
-    </>
-  );
-};
-
-const CreateNote = () => {
-  const [input, setInput] = useState<string>("");
-  const ctx = api.useContext();
-  const { mutate, isLoading: isAdding } = api.notes.create.useMutation({
-    onSuccess: () => {
-      // set the text area empty
-      setInput("");
-      // Refresh to display the new note
-      void ctx.notes.getAll.invalidate();
-    },
-  });
-  return (
-    <>
-      <div className="draggable-input flex flex-col gap-4">
-        <textarea
-          placeholder="Type your note"
-          rows={10}
-          cols={50}
-          className="rounded-md border-2 border-amber-300 bg-amber-200 p-2 text-black outline-none placeholder:text-slate-600 md:max-w-md"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          disabled={isAdding}
-        />
-        <button
-          className="w-fit self-end rounded-lg border-2 border-red-300 p-2"
-          onClick={() => mutate({ content: input })}
-        >
-          Add
-        </button>
-      </div>
     </>
   );
 };
