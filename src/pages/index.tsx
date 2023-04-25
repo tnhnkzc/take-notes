@@ -1,13 +1,15 @@
 import { type NextPage } from "next";
-import interact from "interactjs";
 import Header from "./components/header";
 import { LoadingSpinner } from "./components/spinner";
 import { CreateNote } from "./components/CreateNote";
+import { Move } from "lucide-react";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime);
+
+import Draggable from "react-draggable";
 
 import { api } from "~/utils/api";
 import { signIn, useSession } from "next-auth/react";
@@ -28,37 +30,6 @@ const Home: NextPage = () => {
   if (isLoading) return <LoadingSpinner size={60} />;
   if (!notes) return <div>Something went wrong.</div>;
 
-  // Draggable notes
-  const position = { x: 0, y: 0 };
-
-  interact(".draggable-note").draggable({
-    listeners: {
-      start(event) {
-        console.log(event.type, event.target);
-      },
-      move(event) {
-        position.x += event.dx;
-        position.y += event.dy;
-
-        event.target.style.transform = `translate(${position.x}px, ${position.y}px)`;
-      },
-    },
-  });
-  // Draggable input
-
-  interact(".draggable-input").draggable({
-    listeners: {
-      start(event) {
-        console.log(event.type, event.target);
-      },
-      move(event) {
-        position.x += event.dx;
-        position.y += event.dy;
-
-        event.target.style.transform = `translate(${position.x}px, ${position.y}px)`;
-      },
-    },
-  });
   return (
     <>
       <Header />
@@ -71,27 +42,38 @@ const Home: NextPage = () => {
             - Solve Google Auth problem
             */}
             {notes?.map((note) => (
-              <div
-                key={note.id}
-                className="draggable-note grid h-fit w-fit grid-flow-col grid-rows-3 justify-evenly rounded-md bg-orange-300 p-2 text-black drop-shadow-2xl"
-              >
-                <p className="row-start-1 row-end-4">{note.content}</p>
-                <button
-                  className="col-start-3 col-end-4 self-start justify-self-end "
-                  onClick={() => {
-                    mutate({ id: note.id });
-                  }}
+              <Draggable handle="strong">
+                <div
+                  key={note.id}
+                  className="grid grid-cols-2 grid-rows-2 justify-evenly gap-2 rounded-md bg-orange-300 p-2 text-black drop-shadow-2xl md:h-64 md:w-96"
                 >
-                  X
-                </button>
-                <Link href={`/note/${note.id}`}>
-                  {" "}
-                  <button className="">Update</button>
-                </Link>
-                <p className="col-span-2 row-start-3 row-end-4 self-end justify-self-end text-xs">
-                  {dayjs(note.createdAt).fromNow()}
-                </p>
-              </div>
+                  <div className="col-start-1 col-end-4 row-start-1 row-end-3 ">
+                    <p>{note.content}</p>
+                  </div>
+                  <div className="col-start-4 col-end-5 self-start justify-self-end ">
+                    <button
+                      onClick={() => {
+                        mutate({ id: note.id });
+                      }}
+                    >
+                      X
+                    </button>
+                  </div>
+                  <div className="col-start-1 col-end-2 row-start-3 row-end-4 self-start justify-self-start rounded-md border-2 border-black p-2 ">
+                    <Link href={`/note/${note.id}`}>
+                      <button>Update</button>
+                    </Link>
+                  </div>
+                  <div className="col-start-3 col-end-4 row-start-3 row-end-4 self-end justify-self-end text-xs">
+                    <p>{dayjs(note.createdAt).fromNow()}</p>
+                  </div>
+                  <div className="col-start-4 col-end-5 row-start-3 row-end-4 flex w-16 cursor-pointer justify-end self-end justify-self-end ">
+                    <strong>
+                      <Move />
+                    </strong>
+                  </div>
+                </div>
+              </Draggable>
             ))}
           </div>
         </main>

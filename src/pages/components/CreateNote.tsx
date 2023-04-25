@@ -3,6 +3,9 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { LoadingSpinner } from "./spinner";
 
+import Draggable from "react-draggable";
+import { Move } from "lucide-react";
+
 export const CreateNote = () => {
   const [input, setInput] = useState<string>("");
   const ctx = api.useContext();
@@ -24,39 +27,47 @@ export const CreateNote = () => {
   });
   return (
     <>
-      <div className="draggable-input flex flex-col gap-4">
-        <textarea
-          placeholder="Type your note"
-          rows={10}
-          cols={50}
-          className="rounded-md border-2 border-amber-300 bg-amber-200 p-2 text-black outline-none drop-shadow-2xl placeholder:text-slate-600 md:max-w-md"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-              if (input !== "") {
-                mutate({ content: input });
+      <Draggable handle="strong">
+        <div className="flex flex-col gap-4">
+          <textarea
+            placeholder="Type your note"
+            rows={10}
+            cols={50}
+            className="rounded-md border-2 border-amber-300 bg-amber-200 p-2 text-black outline-none drop-shadow-2xl placeholder:text-slate-600 md:max-w-md"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                if (input !== "") {
+                  mutate({ content: input });
+                }
               }
-            }
-          }}
-          disabled={isAdding}
-        />
-        {input !== "" && !isAdding && (
-          <button
-            className="w-fit self-end rounded-lg border-2 border-red-300 p-2 transition delay-150 duration-100 ease-in hover:bg-orange-300 dark:hover:bg-orange-300"
-            onClick={() => mutate({ content: input })}
+            }}
             disabled={isAdding}
-          >
-            Add
-          </button>
-        )}
-        {isAdding && (
-          <div>
-            <LoadingSpinner size={20} />
-          </div>
-        )}
-      </div>
+          />
+
+          {input !== "" && !isAdding && (
+            <div className="grid grid-cols-2">
+              <button
+                className="w-fit  justify-self-start rounded-lg border-2 border-red-300 p-2 transition delay-150 duration-100 ease-in hover:bg-orange-300 dark:hover:bg-orange-300"
+                onClick={() => mutate({ content: input })}
+                disabled={isAdding}
+              >
+                Add
+              </button>
+              <strong className="cursor-pointer justify-self-end">
+                <Move />
+              </strong>
+            </div>
+          )}
+          {isAdding && (
+            <div>
+              <LoadingSpinner size={20} />
+            </div>
+          )}
+        </div>
+      </Draggable>
     </>
   );
 };

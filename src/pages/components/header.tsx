@@ -2,6 +2,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { Sun, Moon } from "lucide-react";
+import Link from "next/link";
 
 const Header: React.FC = () => {
   const { data: user } = useSession();
@@ -20,7 +21,9 @@ const Header: React.FC = () => {
   return (
     <div className="flex items-center justify-between p-4">
       <div>
-        <h1>Take Notes</h1>
+        <Link href="/">
+          <h1>Take Notes</h1>
+        </Link>
       </div>
       <div className="flex items-center justify-center gap-4">
         {currentTheme === "dark" ? (
