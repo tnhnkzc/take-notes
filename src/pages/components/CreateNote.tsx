@@ -32,6 +32,14 @@ export const CreateNote = () => {
           className="rounded-md border-2 border-amber-300 bg-amber-200 p-2 text-black outline-none drop-shadow-2xl placeholder:text-slate-600 md:max-w-md"
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              if (input !== "") {
+                mutate({ content: input });
+              }
+            }
+          }}
           disabled={isAdding}
         />
         {input !== "" && !isAdding && (

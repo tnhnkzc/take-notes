@@ -11,6 +11,7 @@ dayjs.extend(relativeTime);
 
 import { api } from "~/utils/api";
 import { signIn, useSession } from "next-auth/react";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   const { data: notes, isLoading } = api.notes.getAll.useQuery();
@@ -83,6 +84,10 @@ const Home: NextPage = () => {
                 >
                   X
                 </button>
+                <Link href={`/note/${note.id}`}>
+                  {" "}
+                  <button className="">Update</button>
+                </Link>
                 <p className="col-span-2 row-start-3 row-end-4 self-end justify-self-end text-xs">
                   {dayjs(note.createdAt).fromNow()}
                 </p>
