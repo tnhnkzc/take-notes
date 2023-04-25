@@ -24,7 +24,7 @@ const Home: NextPage = () => {
     },
   });
   // Show loading spinner if data didn't load yet
-  if (isLoading) return <LoadingSpinner />;
+  if (isLoading) return <LoadingSpinner size={60} />;
   if (!notes) return <div>Something went wrong.</div>;
 
   // Draggable notes

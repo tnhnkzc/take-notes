@@ -6,6 +6,7 @@ import { ThemeProvider } from "next-themes";
 import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
+import { Toaster } from "react-hot-toast";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -14,6 +15,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <ThemeProvider enableSystem={true} attribute="class">
+        <Toaster position="bottom-center" />
         <Component {...pageProps} />
       </ThemeProvider>
     </SessionProvider>

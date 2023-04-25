@@ -1,5 +1,7 @@
 import { api } from "~/utils/api";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { LoadingSpinner } from "./spinner";
 
 export const CreateNote = () => {
   const [input, setInput] = useState<string>("");
@@ -10,6 +12,14 @@ export const CreateNote = () => {
       setInput("");
       // Refresh to display the new note
       void ctx.notes.getAll.invalidate();
+    },
+    onError: (e) => {
+      const errorMessage = e.data?.zodError?.fieldErrors.content;
+      if (errorMessage && errorMessage[0]) {
+        toast.error(errorMessage[0]);
+      } else {
+        toast.error("Failed to add a note. Please try again later.");
+      }
     },
   });
   return (
@@ -24,12 +34,20 @@ export const CreateNote = () => {
           onChange={(e) => setInput(e.target.value)}
           disabled={isAdding}
         />
-        <button
-          className="w-fit self-end rounded-lg border-2 border-red-300 p-2 transition delay-150 duration-100 ease-in hover:bg-orange-300 dark:hover:bg-orange-300"
-          onClick={() => mutate({ content: input })}
-        >
-          Add
-        </button>
+        {input !== "" && !isAdding && (
+          <button
+            className="w-fit self-end rounded-lg border-2 border-red-300 p-2 transition delay-150 duration-100 ease-in hover:bg-orange-300 dark:hover:bg-orange-300"
+            onClick={() => mutate({ content: input })}
+            disabled={isAdding}
+          >
+            Add
+          </button>
+        )}
+        {isAdding && (
+          <div>
+            <LoadingSpinner size={20} />
+          </div>
+        )}
       </div>
     </>
   );
