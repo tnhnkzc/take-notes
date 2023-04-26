@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { IPosInput, IPosNote, IPosTwitch } from "./interfaces";
+import { IPosInput, IPosNote, IPosSpotify, IPosTwitch } from "./interfaces";
 
 export const usePosTwitch = create<IPosTwitch>(
   persist(
@@ -35,5 +35,17 @@ export const usePosInput = create<IPosInput>(
       setInputPosDefault: () => set(() => ({ inputPosX: 1208, inputPosY: 0 })),
     }),
     { name: "set_input_position" }
+  )
+);
+export const usePosSpotify = create<IPosSpotify>(
+  persist(
+    (set, _) => ({
+      spotfiyPosX: 0,
+      spotfiyPosY: 0,
+      setSpotifyPos: (x, y) => set({ spotifyPosX: x, spotifyPosY: y }),
+      setSpotifyPosDefault: () =>
+        set(() => ({ spotifyPosX: 1208, spotifyPosY: 0 })),
+    }),
+    { name: "set_spotify_position" }
   )
 );

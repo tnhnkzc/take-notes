@@ -17,3 +17,9 @@ export interface IPosInput {
   setInputPos: (x: number, y: number) => void;
   setInputPosDefault: () => void;
 }
+export interface IPosSpotify {
+  spotifyPosX: number;
+  spotifyPosY: number;
+  setSpotifyPos: (x: number, y: number) => void;
+  setSpotifyPosDefault: () => void;
+}

@@ -2,7 +2,7 @@ import { type NextPage } from "next";
 import Header from "./components/header";
 import { LoadingSpinner } from "./components/spinner";
 import { CreateNote } from "./components/CreateNote";
-import { Move, Forward } from "lucide-react";
+import { Move } from "lucide-react";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -16,6 +16,7 @@ import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { Twitch } from "./components/Twitch/Twitch";
 import { usePosNote } from "~/store";
+import { Spotify } from "./components/Spotify/Spotify";
 
 const Home: NextPage = () => {
   const { data: notes, isLoading } = api.notes.getAll.useQuery();
@@ -52,15 +53,14 @@ const Home: NextPage = () => {
   return (
     <>
       <Header />
-
       {user ? (
         <main className="flex w-full flex-row flex-wrap items-center justify-center gap-4">
           <CreateNote />
           <Twitch />
+          <Spotify />
           <div className="container flex  items-center justify-center gap-12 px-4 py-16 ">
             {/* TODO: 
             - Limit dragging area
-            - Solve Google Auth problem
             */}
             {notes?.map((note) => (
               <Draggable

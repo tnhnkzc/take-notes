@@ -40,6 +40,7 @@ export const Twitch = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <input
+              type="text"
               className="rounded-md border-2 border-orange-300 p-2"
               placeholder="Search streamer"
               onChange={(e) => {
