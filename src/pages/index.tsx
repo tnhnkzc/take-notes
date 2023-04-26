@@ -2,7 +2,7 @@ import { type NextPage } from "next";
 import Header from "./components/header";
 import { LoadingSpinner } from "./components/spinner";
 import { CreateNote } from "./components/CreateNote";
-import { Move } from "lucide-react";
+import { Move, Forward } from "lucide-react";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -14,10 +14,12 @@ import Draggable from "react-draggable";
 import { api } from "~/utils/api";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
+import { Twitch } from "./components/Twitch/Twitch";
 
 const Home: NextPage = () => {
   const { data: notes, isLoading } = api.notes.getAll.useQuery();
   const { data: user } = useSession();
+  // const [lastPositions, setLastPositions] = useState({});
   const ctx = api.useContext();
   // Delete a note
   const { mutate } = api.notes.delete.useMutation({
@@ -26,6 +28,18 @@ const Home: NextPage = () => {
       void ctx.notes.getAll.invalidate();
     },
   });
+
+  // TODO: Save positions of notes (couldn't do it yet)
+  // const eventLogger = (e: any, data: any) => {
+  //   localStorage.setItem("lastX", data.x);
+  //   localStorage.setItem("lastY", data.y);
+  //   const x: any = localStorage.getItem("lastX");
+  //   const y: any = localStorage.getItem("lastY");
+  //   console.log("x", x);
+  //   setLastPositions({ x, y });
+  //   console.log(lastPositions);
+  // };
+
   // Show loading spinner if data didn't load yet
   if (isLoading) return <LoadingSpinner size={60} />;
   if (!notes) return <div>Something went wrong.</div>;
@@ -33,9 +47,11 @@ const Home: NextPage = () => {
   return (
     <>
       <Header />
+
       {user ? (
         <main className="flex w-full flex-row flex-wrap items-center justify-center gap-4">
           <CreateNote />
+          <Twitch />
           <div className="container flex  items-center justify-center gap-12 px-4 py-16 ">
             {/* TODO: 
             - Limit dragging area
