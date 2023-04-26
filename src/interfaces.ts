@@ -11,3 +11,9 @@ export interface IPosNote {
   setNotePos: (x: number, y: number) => void;
   setNotePosDefault: () => void;
 }
+export interface IPosInput {
+  inputPosX: number;
+  inputPosY: number;
+  setInputPos: (x: number, y: number) => void;
+  setInputPosDefault: () => void;
+}

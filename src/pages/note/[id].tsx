@@ -17,6 +17,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
 import Header from "../components/header";
+import { usePosInput } from "~/store";
 
 const SinglePostPage: NextPage = () => {
   // Get note id from URL
@@ -27,6 +28,10 @@ const SinglePostPage: NextPage = () => {
   const { data: note, isLoading } = api.notes.findUnique.useQuery({
     noteId: id,
   });
+  const { inputPosX, inputPosY, setInputPos } = usePosInput();
+  function changePosition(data: any) {
+    setInputPos(data.x, data.y);
+  }
 
   // update note
   const [updatedNote, setUpdatedNote] = useState<string>(note?.content!);
@@ -63,7 +68,13 @@ const SinglePostPage: NextPage = () => {
       </Head>
       <Header />
       {user ? (
-        <Draggable handle="strong">
+        <Draggable
+          handle="strong"
+          defaultPosition={{ x: inputPosX, y: inputPosY }}
+          onStop={(_, data) => {
+            changePosition(data);
+          }}
+        >
           <div className="grid max-w-xl grid-cols-2 grid-rows-2 gap-2">
             <textarea
               placeholder="Type your note"

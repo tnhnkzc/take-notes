@@ -5,9 +5,14 @@ import { LoadingSpinner } from "./spinner";
 
 import Draggable from "react-draggable";
 import { Move } from "lucide-react";
+import { usePosInput } from "~/store";
 
 export const CreateNote = () => {
   const [input, setInput] = useState<string>("");
+  const { inputPosX, inputPosY, setInputPos } = usePosInput();
+  function changePosition(data: any) {
+    setInputPos(data.x, data.y);
+  }
   const ctx = api.useContext();
   const { mutate, isLoading: isAdding } = api.notes.create.useMutation({
     onSuccess: () => {
@@ -27,7 +32,13 @@ export const CreateNote = () => {
   });
   return (
     <>
-      <Draggable handle="strong">
+      <Draggable
+        handle="strong"
+        defaultPosition={{ x: inputPosX, y: inputPosY }}
+        onStop={(_, data) => {
+          changePosition(data);
+        }}
+      >
         <div className="flex flex-col gap-4">
           <textarea
             placeholder="Type your note"
