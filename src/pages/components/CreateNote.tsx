@@ -33,7 +33,7 @@ export const CreateNote = () => {
             placeholder="Type your note"
             rows={10}
             cols={50}
-            className="rounded-md border-2 border-amber-300 bg-amber-200 p-2 text-black outline-none drop-shadow-2xl placeholder:text-slate-600 md:max-w-md"
+            className="max-w-sm rounded-md border-2 border-amber-300 bg-amber-200 p-2 text-black outline-none drop-shadow-2xl placeholder:text-slate-600 md:max-w-md"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {

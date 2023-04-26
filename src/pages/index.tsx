@@ -15,10 +15,12 @@ import { api } from "~/utils/api";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { Twitch } from "./components/Twitch/Twitch";
+import { usePosNote } from "~/store";
 
 const Home: NextPage = () => {
   const { data: notes, isLoading } = api.notes.getAll.useQuery();
   const { data: user } = useSession();
+  const { notePosX, notePosY, setNotePos } = usePosNote();
   // const [lastPositions, setLastPositions] = useState({});
   const ctx = api.useContext();
   // Delete a note
@@ -28,6 +30,9 @@ const Home: NextPage = () => {
       void ctx.notes.getAll.invalidate();
     },
   });
+  function changePosition(data: any) {
+    setNotePos(data.x, data.y);
+  }
 
   // TODO: Save positions of notes (couldn't do it yet)
   // const eventLogger = (e: any, data: any) => {
@@ -58,7 +63,11 @@ const Home: NextPage = () => {
             - Solve Google Auth problem
             */}
             {notes?.map((note) => (
-              <Draggable handle="strong">
+              <Draggable
+                handle="strong"
+                defaultPosition={{ x: notePosX, y: notePosY }}
+                onStop={(_, data) => changePosition(data)}
+              >
                 <div
                   key={note.id}
                   className="grid grid-cols-2 grid-rows-2 justify-evenly gap-2 rounded-md bg-orange-300 p-2 text-black drop-shadow-2xl md:h-64 md:w-96"
