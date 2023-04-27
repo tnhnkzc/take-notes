@@ -44,7 +44,7 @@ export const CreateNote = () => {
             placeholder="Type your note"
             rows={10}
             cols={50}
-            className="max-w-sm rounded-md border-2 border-amber-300 bg-amber-200 p-2 text-black outline-none drop-shadow-2xl placeholder:text-slate-600 md:max-w-md"
+            className="max-w-xs rounded-md border-2 border-amber-300 bg-amber-200 p-2 text-black outline-none drop-shadow-2xl placeholder:text-slate-600 md:max-w-md"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {
@@ -58,20 +58,18 @@ export const CreateNote = () => {
             disabled={isAdding}
           />
 
-          {input !== "" && !isAdding && (
-            <div className="grid grid-cols-2">
-              <button
-                className="w-fit  justify-self-start rounded-lg border-2 border-red-300 p-2 transition delay-150 duration-100 ease-in hover:bg-orange-300 dark:hover:bg-orange-300"
-                onClick={() => mutate({ content: input })}
-                disabled={isAdding}
-              >
-                Add
-              </button>
-              <strong className="cursor-pointer justify-self-end">
-                <Move />
-              </strong>
-            </div>
-          )}
+          <div className="grid grid-cols-2">
+            <button
+              className="w-fit  justify-self-start rounded-lg border-2 border-red-300 p-2 transition delay-150 duration-100 ease-in hover:bg-orange-300 dark:hover:bg-orange-300"
+              onClick={() => mutate({ content: input })}
+              disabled={isAdding}
+            >
+              Add
+            </button>
+            <strong className="cursor-pointer justify-self-end">
+              <Move />
+            </strong>
+          </div>
           {isAdding && (
             <div>
               <LoadingSpinner size={20} />

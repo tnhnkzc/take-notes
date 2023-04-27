@@ -41,16 +41,16 @@ const Header: React.FC = () => {
             <Moon />
           </button>
         )}
-        <p className="text-center text-xl text-black dark:text-white">
+        <p className="text-center text-sm text-black dark:text-white md:text-xl">
           {user && <span> {user.user?.name}</span>}
         </p>
         <img
-          className="w-14 rounded-full"
+          className="w-10 rounded-full md:w-14"
           src={user && user.user?.image}
           alt={user && user.user?.name}
         />
         <button
-          className="rounded-full border-2 border-orange-300 bg-white px-10 py-3 font-semibold text-black no-underline transition delay-150 duration-100 ease-in hover:bg-orange-300 dark:border-orange-300 dark:bg-black dark:text-white dark:hover:bg-orange-300"
+          className="rounded-full border-2 border-orange-300 bg-white px-2 py-2 text-xs font-semibold text-black no-underline transition delay-150 duration-100 ease-in hover:bg-orange-300 dark:border-orange-300 dark:bg-black dark:text-white dark:hover:bg-orange-300 md:px-10 md:py-3 md:text-lg"
           onClick={user ? () => void signOut() : () => void signIn()}
         >
           {user ? "Sign out" : "Sign in"}

@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
 
   return (
     <footer>
-      <div className="mx-auto flex w-full max-w-screen-xl flex-col items-center justify-center p-4 md:py-8">
+      <div className="mx-auto flex w-full max-w-screen-xl flex-col items-center justify-center p-4 md:absolute md:bottom-0 md:left-0 md:right-0 md:py-8">
         <div>
           <Link href="https://www.github.com/tnhnkzc/take-notes">
             <Github />
@@ -32,7 +32,7 @@ const Footer: React.FC = () => {
           Copyright <span className="text-black dark:text-white">{year}</span>
         </div>
         <div className="text-black dark:text-white">
-          Made by Tunahan Kuzucu with ❤️{" "}
+          Made by Tunahan Kuzucu with ❤️
         </div>
       </div>
     </footer>

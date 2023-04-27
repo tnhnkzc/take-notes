@@ -55,11 +55,11 @@ const Home: NextPage = () => {
     <>
       <Header />
       {user ? (
-        <main className="flex w-full flex-row flex-wrap items-center justify-center gap-4">
+        <main className="flex flex-col flex-wrap items-center justify-center gap-4 md:w-full md:flex-row">
           <CreateNote />
           <Twitch />
           <Spotify />
-          <div className="container flex  items-center justify-center gap-12 px-4 py-16 ">
+          <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 md:flex-row ">
             {/* TODO: 
             - Limit dragging area
             */}
