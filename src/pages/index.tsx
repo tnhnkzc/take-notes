@@ -17,6 +17,7 @@ import Link from "next/link";
 import { Twitch } from "./components/Twitch/Twitch";
 import { usePosNote } from "~/store";
 import { Spotify } from "./components/Spotify/Spotify";
+import Footer from "./components/footer";
 
 const Home: NextPage = () => {
   const { data: notes, isLoading } = api.notes.getAll.useQuery();
@@ -112,6 +113,7 @@ const Home: NextPage = () => {
           </button>
         </div>
       )}
+      <Footer />
     </>
   );
 };

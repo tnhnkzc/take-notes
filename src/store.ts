@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { IPosInput, IPosNote, IPosSpotify, IPosTwitch } from "./interfaces";
+import { prisma } from "./server/db";
+import { api } from "~/utils/api";
 
 export const usePosTwitch = create<IPosTwitch>(
   persist(
