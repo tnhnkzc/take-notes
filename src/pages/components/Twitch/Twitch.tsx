@@ -33,7 +33,7 @@ const Twitch = () => {
           src={
             "https://player.twitch.tv/?channel=" +
             streamerName +
-            "&parent=localhost"
+            "&parent=https://take-notes-rose.vercel.app/"
           }
           allowFullScreen
         ></iframe>
