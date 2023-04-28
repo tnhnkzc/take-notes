@@ -13,7 +13,6 @@ const Footer: React.FC = () => {
   }, []);
   useEffect(() => {
     const year = new Date().getFullYear();
-    console.log(year);
     setYear(year);
   });
   if (!mounted) return null;

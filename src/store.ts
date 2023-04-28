@@ -1,10 +1,8 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { IPosInput, IPosNote, IPosSpotify, IPosTwitch } from "./interfaces";
-import { prisma } from "./server/db";
-import { api } from "~/utils/api";
 
-export const usePosTwitch = create<IPosTwitch>(
+export const usePosTwitch = create<IPosTwitch>()(
   persist(
     (set, _) => ({
       twitchPosX: 0,
@@ -17,7 +15,7 @@ export const usePosTwitch = create<IPosTwitch>(
   )
 );
 
-export const usePosNote = create<IPosNote>(
+export const usePosNote = create<IPosNote>()(
   persist(
     (set, _) => ({
       notePosX: 0,
@@ -28,7 +26,7 @@ export const usePosNote = create<IPosNote>(
     { name: "set_note_position" }
   )
 );
-export const usePosInput = create<IPosInput>(
+export const usePosInput = create<IPosInput>()(
   persist(
     (set, _) => ({
       inputPosX: 0,
@@ -39,11 +37,11 @@ export const usePosInput = create<IPosInput>(
     { name: "set_input_position" }
   )
 );
-export const usePosSpotify = create<IPosSpotify>(
+export const usePosSpotify = create<IPosSpotify>()(
   persist(
     (set, _) => ({
-      spotfiyPosX: 0,
-      spotfiyPosY: 0,
+      spotifyPosX: 0,
+      spotifyPosY: 0,
       setSpotifyPos: (x, y) => set({ spotifyPosX: x, spotifyPosY: y }),
       setSpotifyPosDefault: () =>
         set(() => ({ spotifyPosX: 1208, spotifyPosY: 0 })),
