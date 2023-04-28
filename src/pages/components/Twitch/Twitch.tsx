@@ -6,7 +6,7 @@ import { useState } from "react";
 import { usePosTwitch } from "~/store";
 
 const Twitch = () => {
-  const [streamerName, setStreamerName] = useState<string>("");
+  const [streamerName, setStreamerName] = useState<string>("theprimeagen");
   const [inputText, setInputText] = useState("");
   const { twitchPosX, twitchPosY, setTwitchPos } = usePosTwitch();
   function changePosition(data: any) {
@@ -33,7 +33,7 @@ const Twitch = () => {
           src={
             "https://player.twitch.tv/?channel=" +
             streamerName +
-            "&parent=https://take-notes-rose.vercel.app/"
+            "&parent=take-notes-rose.vercel.app"
           }
           allowFullScreen
         ></iframe>
