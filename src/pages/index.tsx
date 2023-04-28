@@ -106,7 +106,7 @@ const Home: NextPage = () => {
       ) : (
         <div className="flex items-center justify-center">
           <button
-            className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
+            className="rounded-full border-2 border-orange-300 bg-white px-2 py-2 text-xs font-semibold text-black no-underline transition delay-150 duration-100 ease-in hover:bg-orange-300 dark:border-orange-300 dark:bg-black dark:text-white dark:hover:bg-orange-300 md:px-10 md:py-3 md:text-lg"
             onClick={() => void signIn()}
           >
             Sign in
