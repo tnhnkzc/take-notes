@@ -1,5 +1,5 @@
 import { type NextPage } from "next";
-import { LoadingSpinner } from "../components/spinner";
+import LoadingSpinner from "../components/spinner";
 import { useRouter } from "next/router";
 import { Move } from "lucide-react";
 

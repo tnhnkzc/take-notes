@@ -1,7 +1,7 @@
 import { type NextPage } from "next";
 import Header from "./components/header";
-import { LoadingSpinner } from "./components/spinner";
-import { CreateNote } from "./components/CreateNote";
+import LoadingSpinner from "./components/spinner";
+import CreateNote from "./components/CreateNote";
 import { Move } from "lucide-react";
 
 import dayjs from "dayjs";
@@ -14,9 +14,9 @@ import Draggable from "react-draggable";
 import { api } from "~/utils/api";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
-import { Twitch } from "./components/Twitch/Twitch";
+import Twitch from "./components/Twitch/Twitch";
 import { usePosNote } from "~/store";
-import { Spotify } from "./components/Spotify/Spotify";
+import Spotify from "./components/Spotify/Spotify";
 import Footer from "./components/footer";
 
 const Home: NextPage = () => {
