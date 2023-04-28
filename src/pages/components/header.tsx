@@ -46,8 +46,8 @@ const Header: React.FC = () => {
         </p>
         <Image
           className=" rounded-full"
-          width={10}
-          height={10}
+          width={32}
+          height={32}
           // @ts-ignore
           src={user && user.user?.image}
           // @ts-ignore

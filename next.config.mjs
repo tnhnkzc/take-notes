@@ -20,5 +20,8 @@ const config = {
   },
   typescript: { ignoreBuildErrors: true },
   eslint: { ignoreDuringBuilds: true },
+  images: {
+    domains: ["cdn.discordapp.com"],
+  },
 };
 export default config;

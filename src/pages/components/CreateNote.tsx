@@ -1,7 +1,7 @@
 import { api } from "~/utils/api";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { LoadingSpinner } from "./spinner";
+import LoadingSpinner from "./spinner";
 
 import Draggable from "react-draggable";
 import { Move } from "lucide-react";
