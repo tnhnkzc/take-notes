@@ -3,10 +3,9 @@ import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { Sun, Moon } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 
 const Header: React.FC = () => {
-  const { data: user } = useSession<boolean>();
+  const { data: user } = useSession();
 
   const { theme, setTheme } = useTheme();
 
@@ -44,15 +43,7 @@ const Header: React.FC = () => {
         <p className="text-center text-sm text-black dark:text-white md:text-xl">
           {user && <span> {user.user?.name}</span>}
         </p>
-        <Image
-          className=" rounded-full"
-          width={32}
-          height={32}
-          // @ts-ignore
-          src={user && user.user?.image}
-          // @ts-ignore
-          alt={user && user.user?.name}
-        />
+
         <button
           className="rounded-full border-2 border-orange-300 bg-white px-2 py-2 text-xs font-semibold text-black no-underline transition delay-150 duration-100 ease-in hover:bg-orange-300 dark:border-orange-300 dark:bg-black dark:text-white dark:hover:bg-orange-300 md:px-10 md:py-3 md:text-lg"
           onClick={user ? () => void signOut() : () => void signIn()}
