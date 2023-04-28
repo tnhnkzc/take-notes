@@ -1,6 +1,11 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { IPosInput, IPosNote, IPosSpotify, IPosTwitch } from "./interfaces";
+import type {
+  IPosInput,
+  IPosNote,
+  IPosSpotify,
+  IPosTwitch,
+} from "./interfaces";
 
 export const usePosTwitch = create<IPosTwitch>()(
   persist(

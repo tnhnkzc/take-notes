@@ -1,10 +1,8 @@
-import { useTheme } from "next-themes";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Github } from "lucide-react";
 
 const Footer: React.FC = () => {
-  const { theme, setTheme } = useTheme();
   const [year, setYear] = useState<number>();
 
   const [mounted, setMounted] = useState(false);
@@ -14,10 +12,8 @@ const Footer: React.FC = () => {
   useEffect(() => {
     const year = new Date().getFullYear();
     setYear(year);
-  });
+  }, []);
   if (!mounted) return null;
-
-  const currentTheme = theme;
 
   return (
     <footer>

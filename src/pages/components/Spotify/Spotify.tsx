@@ -3,7 +3,7 @@ import { useState } from "react";
 import Draggable from "react-draggable";
 import { usePosSpotify } from "~/store";
 
-export const Spotify = () => {
+const Spotify = () => {
   const [text, setText] = useState("");
   const [playlist, setPlaylist] = useState(
     "https://open.spotify.com/embed/playlist/37i9dQZF1DWWQRwui0ExPn"
@@ -68,3 +68,4 @@ export const Spotify = () => {
     </>
   );
 };
+export default Spotify;

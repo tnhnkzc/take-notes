@@ -7,7 +7,7 @@ import Draggable from "react-draggable";
 import { Move } from "lucide-react";
 import { usePosInput } from "~/store";
 
-export const CreateNote = () => {
+const CreateNote = () => {
   const [input, setInput] = useState<string>("");
   const { inputPosX, inputPosY, setInputPos } = usePosInput();
   function changePosition(data: any) {
@@ -80,3 +80,4 @@ export const CreateNote = () => {
     </>
   );
 };
+export default CreateNote;

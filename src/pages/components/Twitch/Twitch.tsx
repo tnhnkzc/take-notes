@@ -5,7 +5,7 @@ import Draggable from "react-draggable";
 import { useState } from "react";
 import { usePosTwitch } from "~/store";
 
-export const Twitch = () => {
+const Twitch = () => {
   const [streamerName, setStreamerName] = useState<string>("");
   const [inputText, setInputText] = useState("");
   const { twitchPosX, twitchPosY, setTwitchPos } = usePosTwitch();
@@ -63,3 +63,4 @@ export const Twitch = () => {
     </Draggable>
   );
 };
+export default Twitch;
